@@ -36,3 +36,13 @@ let b = characters[1] = mewtwo;
 console.log(areas);
 console.log(characters);
 console.log(b);
+
+
+function battle() {
+    let game = document.getElementById('game');
+    game.innerHTML = `
+        <h4>Missing Both Players</h4>
+    `;
+}
+
+battle();

@@ -36,6 +36,11 @@ function Pokemon(name, level, type, front, back) {
     this.imageBack = back;
 }
 
+function Battlefield(bg, name) {
+    this.background = bg;
+    this.name = name;
+}
+
 let charmander = new Pokemon('Charmander', 8, 'Fire');
 console.log(charmander);
 
