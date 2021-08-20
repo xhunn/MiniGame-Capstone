@@ -39,3 +39,27 @@ console.log(charmander);
 
 let pikachu = new Pokemon('Pikachu', 9, 'Lightning');
 console.log(pikachu);
+
+// recap
+
+let person = {
+    name: 'Christian',
+    weight: '72kg',
+    height: '172cm'
+}
+
+let computer = Object({
+    weight: '80grams',
+    color: 'white'
+});
+
+let player = Object();
+player.height = '189cm';
+player.skill = 'Basketball';
+player.talent = 'Singing';
+
+console.log(player)
+console.log(typeof player)
+
+player.specialty = 'Tailoring';
+console.log(player)
