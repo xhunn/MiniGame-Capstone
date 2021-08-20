@@ -24,7 +24,7 @@ function Laptop() {
 }
 // Disconnected //
 
-function Pokemon(name, level, type) {
+function Pokemon(name, level, type, front, back) {
     this.pokemonName = name;
     this.pokemonLevel = level;
     this.pokemonHealth = 80 * level; 
@@ -32,6 +32,8 @@ function Pokemon(name, level, type) {
     this.attack = function(targetPokemon){
         console.log(this.pokemonName + " attacked " + targetPokemon.pokemonName);
     };
+    this.imageFront = front;
+    this.imageBack = back;
 }
 
 let charmander = new Pokemon('Charmander', 8, 'Fire');
@@ -45,7 +47,10 @@ console.log(pikachu);
 let person = {
     name: 'Christian',
     weight: '72kg',
-    height: '172cm'
+    height: '172cm',
+    location: {
+        city: 'Las Pinas'
+    }
 }
 
 let computer = Object({
@@ -58,8 +63,28 @@ player.height = '189cm';
 player.skill = 'Basketball';
 player.talent = 'Singing';
 
-console.log(player)
-console.log(typeof player)
+console.log(player);
+console.log(typeof player);
 
 player.specialty = 'Tailoring';
-console.log(player)
+console.log(player);
+
+// How to access a propert of an Object.
+console.log(computer.color);
+console.log(player.skill);
+console.log(person.location.city)
+
+let Car = Object();
+Car.name = 'Honda Civic';
+Car.color = 'Red';
+
+let Mobile = {};
+Mobile.name = 'Samsung';
+Mobile.network = 'Globe';
+
+Car['Manufacture Date'] = 2019;
+Mobile['number'] = '09272586350';
+
+console.log(Car);
+console.log(Mobile);
+
