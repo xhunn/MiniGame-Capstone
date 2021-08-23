@@ -35,6 +35,17 @@ let a = characters[0] = articuno;
 let b = characters[1] = mewtwo;
 characters[2] = blastoise;
 
+function contestants(pokemon1, pokemon2) {
+    let contestant1 = document.getElementById('healthIndicator1');
+    let contestant2 = document.getElementById('healthIndicator2');
+
+    let pokemonName1 = pokemon1.name;
+    let pokemonName2 = pokemon2.name;
+
+    contestant1.innerHTML = `<h3 class="container lead">${pokemonName1}</h3>`;
+    contestant2.innerHTML = `<h3 class="container lead">${pokemonName2}</h3>`;
+    
+}   
 
 function battle() {
     let game = document.getElementById('game');
@@ -88,11 +99,13 @@ function play(player1, player2) {
             </div>
         `;
     let playerUser = prompt("Please select a character: ", 'Articuno');
-    playerUser = playerUser.toLowerCase();
+    playerUser = playerUser.toLowerCase().trim();
+    playerUser = eval(playerUser);
     battle(playerUser, mewtwo);
+    contestants(playerUser, mewtwo)
     } else {
         battle()
     }
 }
 
-play(articuno);
+play();
