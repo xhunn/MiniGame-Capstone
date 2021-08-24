@@ -1,115 +1,94 @@
-//Create a template for each pokemon.
-//[OJECT BLUEPRINT TEMPLATE]
 function Pokemon(name, lvl, front, back) {
     this.name = name;
     this.level = lvl;
     this.health = 50 * lvl;
-    this.imageFront = front;
-    this.imageBack = back;
+    this.imageFront = './images/' + front; //we need to get the full path of the image
+    this.imageBack = './images/' + back;
 }
 
-//Create a template for each playing area.
 function Battlefield(bg, name) {
     this.background = bg;
     this.name = name;
 }
 
+const mewtwo = new Pokemon("Mew Two", 2, 'mewtwo.gif', 'mewtwoBack.gif');
+const articuno = new Pokemon('Articuno', 2, 'articuno.gif', 'articunoBack.gif');
+const blastoise = new Pokemon('Blastoise', 3, 'blastoise.gif', 'blastoiseBack.gif');
 
-//List of playable characters. 
-const mewtwo = new Pokemon("Mew Two", 2, 'image', 'image');
-const articuno = new Pokemon('Articuno', 2, 'image', 'image');
-const blastoise = new Pokemon('Blastoise', 2, 'image', 'image')
-
-//List of playing area. 
 const backyard = new Battlefield("image", "Backyard");
 const volcano = new Battlefield('image', 'Volcano');
 
-//we need to store each object inside a container. 
-//we can use an Array() constructor
 const areas = Array();
-areas[0] = backyard;
-areas[1] = volcano;
+let x = areas[0] = backyard;
+let y = areas[1] = volcano;
 
 const characters = Array();
 let a = characters[0] = articuno;
 let b = characters[1] = mewtwo;
-characters[2] = blastoise;
+let c = characters[2] = blastoise;
 
-function contestants(pokemon1, pokemon2) {
+function contestants(pokemon1, pokemon2) { //get the information about the players.
     let contestant1 = document.getElementById('healthIndicator1');
     let contestant2 = document.getElementById('healthIndicator2');
+    let name1 = pokemon1.name;
+    let hp1 = pokemon1.health
+    let hp2 = pokemon2.health
+    let char1Level = pokemon1.level;
+    let char2Level = pokemon2.level;
+    let name2 = pokemon2.name;
 
-    let pokemonName1 = pokemon1.name;
-    let pokemonName2 = pokemon2.name;
+    contestant1.innerHTML = `
+       <div class="mt-2">
+       	  <h4>${name1}</h4>
+          <h5>Level: ${char1Level} </h5>
+          <h5> ${hp1 + '/' + hp1} </h5> 
+          <img height="370" src="${pokemon1.imageBack}" alt="file not found"/>
+       </div>
+   	 `
+    contestant2.innerHTML = `
+      <div class="mt-2">
+          <h4>${name2}</h4>
+          <h5>Level: ${char2Level} </h5>
+          <h5> ${hp2 + '/' + hp2} </h5>
+          <img height="170" src="${pokemon2.imageFront}"/>
+      </div>
+     `
+}
 
-    contestant1.innerHTML = `<h3 class="container pl-0 lead">${pokemonName1}</h3>`;
-    contestant2.innerHTML = `<h3 class="container pl-0 lead">${pokemonName2}</h3>`;
-    
-}   
-
-function battle() {
+function battle(contestant1, contestant2) {
     let game = document.getElementById('game');
     game.innerHTML = `
-        <div class="col">
-            <div class="row mt-4 text-center">
-                <h5 class="container">BATTLE!</h5>
-            </div>
-            <div class="row justify-content-around">
-                <div class="col-5">
-                    <div class="progress">            
-                        <div class="progress-bar bg-success w-50"></div>
-                    </div>
-                </div>
-                <div class="col-5">
-                    <div class="progress">
-                        <div class="progress-bar bg-success w-50"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-2 justify-content-around">
-                <div class="col-5">
-                    <div class="container lead pl-0" id="healthIndicator1"></div>
-                </div>
-                <div class="col-5">
-                    <div class="container lead pl-0" id="healthIndicator2"></div>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    let player = document.getElementById('healthIndicator1');
-    let opponent = document.getElementById('healthIndicator2');
-    player.innerHTML = `Player`;
-    opponent.innerHTML = `Trainer Opponent`;
+ 
+ 	        <div class="container mt-5 mb-2">
+	        	<h5>Battle!</h5>
+	        </div>
+	        <div class="row">
+	        	<!-- healthbar p1 -->
+	        	<div class="col">
+              <h5>HP: </h5>
+	        		<div class="container" id="health1">
+	        			<progress class="progress-bar w-50" id="health1"></progress>			
+	        		</div>
+	        	</div>
+	        	<!-- healthbar p2 -->
+	        	<div class="col">
+              <h5>HP: </h5>
+	        		<div class="container" id="health2">
+	        			<progress class="progress-bar w-50" id="health2"></progress>			
+	        		</div>
+	        	</div>
+	        </div>
+	      `;
+    contestants(contestant1, contestant2);
 }
 
 function play(player1, player2) {
-    let game = document.getElementById('game');
-
-    let pokemon = characters.map(function(element){
-        for (let pokemonCount = 0; pokemonCount < characters.length; pokemonCount++) {
-            return game.innerHTML = `
-                <div class="row">
-                     <h4 class="col lead">${element.name}</h4>
-                </div>
-            `
-        }
-    })
-    pokemon = pokemon.join(" ")
-    if (!player1 || !player2) {
-        game.innerHTML = `
-            <div class="col lead">Missing Player | Please select Player: \n
-                ${pokemon}
-            </div>
-        `;
-    let playerUser = prompt("Please select a character: ", 'Articuno');
-    playerUser = playerUser.toLowerCase().trim();
-    playerUser = eval(playerUser);
-    battle(playerUser, mewtwo);
-    contestants(playerUser, mewtwo)
+    if (!player1 && !player2) {
+        // play();  
+        battle(player1, player2);
     } else {
-        battle()
+        battle(player1, player2);
     }
 }
 
-play();
+play(articuno, articuno);
