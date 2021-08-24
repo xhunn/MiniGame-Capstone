@@ -42,8 +42,8 @@ function contestants(pokemon1, pokemon2) {
     let pokemonName1 = pokemon1.name;
     let pokemonName2 = pokemon2.name;
 
-    contestant1.innerHTML = `<h3 class="container lead">${pokemonName1}</h3>`;
-    contestant2.innerHTML = `<h3 class="container lead">${pokemonName2}</h3>`;
+    contestant1.innerHTML = `<h3 class="container pl-0 lead">${pokemonName1}</h3>`;
+    contestant2.innerHTML = `<h3 class="container pl-0 lead">${pokemonName2}</h3>`;
     
 }   
 
@@ -51,23 +51,27 @@ function battle() {
     let game = document.getElementById('game');
     game.innerHTML = `
         <div class="col">
-            <div class="row text-center">
+            <div class="row mt-4 text-center">
                 <h5 class="container">BATTLE!</h5>
             </div>
             <div class="row justify-content-around">
-                <div class="col-5 progress">
-                    <div class="progress-bar bg-success w-50"></div>
+                <div class="col-5">
+                    <div class="progress">            
+                        <div class="progress-bar bg-success w-50"></div>
+                    </div>
                 </div>
-                <div class="col-5 progress">
-                    <div class="progress-bar bg-success w-50"></div>
+                <div class="col-5">
+                    <div class="progress">
+                        <div class="progress-bar bg-success w-50"></div>
+                    </div>
                 </div>
             </div>
             <div class="row mt-2 justify-content-around">
                 <div class="col-5">
-                    <div class="container lead" id="healthIndicator1"></div>
+                    <div class="container lead pl-0" id="healthIndicator1"></div>
                 </div>
                 <div class="col-5">
-                    <div class="container lead" id="healthIndicator2"></div>
+                    <div class="container lead pl-0" id="healthIndicator2"></div>
                 </div>
             </div>
         </div>
