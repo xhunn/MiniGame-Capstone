@@ -16,7 +16,7 @@ function Battlefield(bg, name) {
 
 
 //List of playable characters. 
-const mewtwo = new Pokemon("Mew Two", 2, 'image', 'image');
+const mewtwo = new Pokemon("MewTwo", 2, 'image', 'image');
 const articuno = new Pokemon('Articuno', 2, 'image', 'image');
 const blastoise = new Pokemon('Blastoise', 2, 'image', 'image')
 
@@ -31,9 +31,11 @@ areas[0] = backyard;
 areas[1] = volcano;
 
 const characters = Array();
-let a = characters[0] = articuno;
-let b = characters[1] = mewtwo;
+characters[0] = articuno;
+characters[1] = mewtwo;
 characters[2] = blastoise;
+
+let mainScreen = document.getElementById('game');
 
 function contestants(pokemon1, pokemon2) {
     let contestant1 = document.getElementById('healthIndicator1');
@@ -42,14 +44,13 @@ function contestants(pokemon1, pokemon2) {
     let pokemonName1 = pokemon1.name;
     let pokemonName2 = pokemon2.name;
 
-    contestant1.innerHTML = `<h3 class="container pl-0 lead">${pokemonName1}</h3>`;
-    contestant2.innerHTML = `<h3 class="container pl-0 lead">${pokemonName2}</h3>`;
+    contestant1.innerHTML = `<h3 class="container pl-0 lead">Player - ${pokemonName1}</h3>`;
+    contestant2.innerHTML = `<h3 class="container pl-0 lead">Computer - ${pokemonName2}</h3>`;
     
 }   
 
 function battle() {
-    let game = document.getElementById('game');
-    game.innerHTML = `
+    mainScreen.innerHTML = `
         <div class="col">
             <div class="row mt-4 text-center">
                 <h5 class="container">BATTLE!</h5>
@@ -83,33 +84,92 @@ function battle() {
     opponent.innerHTML = `Trainer Opponent`;
 }
 
-function play(player1, player2) {
-    let game = document.getElementById('game');
-
-    let pokemon = characters.map(function(element){
-        for (let pokemonCount = 0; pokemonCount < characters.length; pokemonCount++) {
-            return game.innerHTML = `
-                <div class="row">
-                     <h4 class="col lead">${element.name}</h4>
-                </div>
-            `
-        }
-    })
-    pokemon = pokemon.join(" ")
-    if (!player1 || !player2) {
-        game.innerHTML = `
-            <div class="col lead">Missing Player | Please select Player: \n
-                ${pokemon}
+function characterSelected(index) {
+    let characterScreen = document.getElementById('charcterSelectedScreen');
+    characterChosen = characters[index];
+    characterScreen.innerHTML = `
+        <div class="row">
+            <div class="col">
+                <img src="${characterChosen.imageFront}" alt="No Image Found" class="img-fluid">
             </div>
-        `;
-    let playerUser = prompt("Please select a character: ", 'Articuno');
-    playerUser = playerUser.toLowerCase().trim();
-    playerUser = eval(playerUser);
-    battle(playerUser, mewtwo);
-    contestants(playerUser, mewtwo)
-    } else {
-        battle()
-    }
+        </div>
+        <div class="row border">
+            <div class="col-6">
+                
+            </div>
+            <div class="col-6">
+            
+            </div>
+        </div>
+        <div class="row border">
+            <div class="col-6">
+                
+            </div>
+            <div class="col-6">
+            
+            </div>
+        </div>
+    `;
 }
 
-play();
+function characterSelection() {
+    let pokemonSelection = characters.map(function(element){
+        for (let pokemonCount = 0; pokemonCount < characters.length; pokemonCount++) { 
+            return mainScreen.innerHTML = ` 
+                <div class="row justify-content-center my-5">
+                    <div class="col">
+                        <button class="btn btn-dark" onmouseover="characterSelected(pokemonCount)">
+                            <h1 class="display-3">${element.name}</h1>
+                        </button>
+                    </div>
+                </div>
+            `;}})
+    pokemonSelection = pokemonSelection.join(" ")
+    mainScreen.innerHTML = `
+        <div class="col-3 mt-5 ml-3">
+            <div class="btn-toolbar justify-content-center" role="toolbar">
+                <div class="btn-group-vertical" role="group">
+                    ${pokemonSelection}
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col mr-3" id="characterSelectedScreen">
+
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// add difficult layer if there is free time
+
+function menu(){
+    mainScreen.innerHTML = `
+        <div class="col">
+            <div class="row justify-content-center my-5">
+                <div class="col text-center">
+                    <h1 class="display-1">Pokemon Mini Game</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center my-5">
+                <div class="col text-center">
+                    <h1 class="display-1 p-5"></h1>
+                </div>
+            </div>
+            <div class="row justify-content-center my-5">
+                <div class="col text-center">
+                    <h1 class="display-1 p-5"></h1>
+                </div>
+            </div>
+            <div class="row justify-content-center my-5">
+                <div class="col text-center p-4">
+                    <h1 class="display-4">Click <button type="button" onclick="characterSelection()" class="btn px-5 py-3 btn-info"> <h1 class="display-4">START</h1></button> to begin!</h1>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+menu();
