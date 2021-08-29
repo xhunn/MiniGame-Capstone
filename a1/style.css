@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+/* task 4 */
+/* #field {
+    background-image: url('./images/bgMenu.jpg');
+    background-size: cover;
+    height: 100vh;
+} */
+
+/* classes */
+.game-shadow {
+    color:black;
+    text-shadow: 2px 2px #FFFF00;
+}
+
+.game-text {
+    font-family: 'Press Start 2P';
+}
+
+/* ids */
+#character-selection-image {
+    height: 500px;
+}
+
+#button-character {
+    width: 300px;
+}
+
+#pokeballSelect {
+    width: 20px;
+}
+
+.auto-font-size-header {
+    font-size: 3rem;
+}
+
+.auto-font-size-titles {
+    font-family: 'Press Start 2P';
+    font-size: 2rem;
+}
+
+.auto-font-size-description {
+    font-family: 'Press Start 2P';
+    font-size: 1rem;
+}
+
+.auto-font-size-button {
+    font-size: 1.5rem;
+}
+
+.auto-image-battle-front {
+    height: 150px;
+}
+
+.auto-image-battle-back {
+    height: 350px;
+}
+
+.background-battle-ui {
+    background-color: white;
+}
+
+.button-battle {
+    width: 250px
+}
