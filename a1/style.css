@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 /* task 4 */
-/* #field {
+#field {
     background-image: url('./images/bgMenu.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-size: cover;
-    height: 100vh;
-} */
+}
 
 /* classes */
 .game-shadow {
@@ -62,3 +64,19 @@
 .button-battle {
     width: 250px
 }
+
+.auto-font-size-health {
+    margin-top: 1.3rem;
+    width: 90%;
+    font-family: 'Press Start 2P';
+    color:black;
+    font-size: .7rem;
+}
+
+/* #playerHealthBar {
+    width: 100%;
+}
+
+#opponentHealthBar {
+    width: 100%;
+} */
