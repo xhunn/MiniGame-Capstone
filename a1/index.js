@@ -18,15 +18,15 @@ function Battlefield(bg, name) {
 
 
 //List of playable characters.
-const mewtwo = new Pokemon("MewTwo", 5, './images/mewtwoFront.gif', './images/mewtwoBack.gif', 'Psychic', 11);
-const articuno = new Pokemon('Articuno', 5, './images/articunoFront.gif', './images/articunoBack.gif', 'Flying, Ice', 12);
-const lugia = new Pokemon('Lugia', 5, './images/lugiaFront.gif', './images/lugiaBack.gif', 'Flying, Psychic', 11);
+const mewtwo = new Pokemon("MewTwo", 5, './images/mewtwoFront.gif', './images/mewtwoBack.gif', 'Psychic', 9);
+const articuno = new Pokemon('Articuno', 5, './images/articunoFront.gif', './images/articunoBack.gif', 'Flying, Ice', 10);
+const lugia = new Pokemon('Lugia', 5, './images/lugiaFront.gif', './images/lugiaBack.gif', 'Flying, Psychic', 9);
 const charizard = new Pokemon('Charizard', 5, './images/charizardFront.gif', './images/charizardBack.gif', 'Flying, Fire',
-    12);
+    70);
 const venusaur = new Pokemon('Venusaur', 5, './images/venusaurFront.gif', './images/venusaurBack.gif', 'Grass, Poison',
-    11);
-const ninetales = new Pokemon('Ninetales', 5, './images/ninetalesFront.gif', './images/ninetalesBack.gif', 'Fire', 12)
-const blastoise = new Pokemon('Blastoise', 5, './images/blastoiseFront.gif', './images/blastoiseBack.gif', 'Water', 11)
+    9);
+const ninetales = new Pokemon('Ninetales', 5, './images/ninetalesFront.gif', './images/ninetalesBack.gif', 'Fire', 10)
+const blastoise = new Pokemon('Blastoise', 5, './images/blastoiseFront.gif', './images/blastoiseBack.gif', 'Water', 9)
 
 //List of playing area.
 const backyard = new Battlefield("image", "Backyard");
@@ -66,20 +66,83 @@ let userHealth;
 let opponentPokemon;
 let opponentHealth;
 
+let animationDamage;
+let animationHeal;
+let animationLose;
+
+const levelClear = () => {
+    const userPokemonImage = document.getElementById('battleImageBack');
+    const opponentPokemonImage = document.getElementById('battleImageFront');
+    if (turnPlay % 2 === 0) {
+        userPokemonImage.style.animation = `fadeAway 1s linear`;
+        userPokemonImage.style.opacity = '0%';
+    } else {
+        opponentPokemonImage.style.animation = `fadeAway 1s linear`;
+        opponentPokemonImage.style.opacity = '0%';
+    }
+}
+
+const shake = () => {
+    const userPokemonImage = document.getElementById('battleImageBack');
+    const opponentPokemonImage = document.getElementById('battleImageFront');
+    if (turnPlay % 2 === 0) {
+        userPokemonImage.style.animation = `shakeCharacter .2s linear infinite`
+    } else {
+        opponentPokemonImage.style.animation = `shakeCharacter .2s linear infinite`
+    }
+}
+
+const glow = () => {
+    const userPokemonImage = document.getElementById('battleImageBack');
+    const opponentPokemonImage = document.getElementById('battleImageFront');
+    if (turnPlay % 2 === 0) {
+        userPokemonImage.style.animation = `glowHeal 1s linear infinite`
+    } else {
+        opponentPokemonImage.style.animation = `glowHeal 1s linear infinite`
+    }
+}
 
 const attack = () => {
     if (turnPlay % 2 === 0) {
-        let damage = playerPokemon.power;
-        document.getElementById('battleMessage').innerHTML = `${playerPokemon.name} attacked for ${damage}`;
-        let totalHp = opponentHealth - damage;
-        opponentHealth = totalHp;
+        let critChance = Math.random() * 100;
+        console.log('User Crit Chance: ' + critChance);
+        if (critChance >= 85) {
+            // crit
+            let damage = playerPokemon.power + (Math.random() * 20);
+            damage = Math.ceil(damage * 1.5);
+            document.getElementById('battleMessage').innerHTML = `${playerPokemon.name} crit for ${damage}`;
+            let totalHp = opponentHealth - damage;
+            opponentHealth = totalHp;
+        } else {
+            // normal
+            let damage = playerPokemon.power + (Math.random() * 20);
+            damage = Math.ceil(damage);
+            document.getElementById('battleMessage').innerHTML = `${playerPokemon.name} attacked for ${damage}`;
+            let totalHp = opponentHealth - damage;
+            opponentHealth = totalHp;
+        }
     } else {
-        let damage = opponentPokemon.power;
-        document.getElementById('battleMessage').innerHTML = `${opponentPokemon.name} attacked for ${damage}`;
-        console.log("enemy damage you for: " + damage);
-        let totalHp = userHealth - damage;
-        userHealth = totalHp;
+        let critChance = Math.random() * 100;
+        console.log('Enemy Crit Chance: ' + critChance);
+        if (critChance >= 85) {
+            // crit
+            let damage = opponentPokemon.power + (Math.random() * 20);
+            damage = Math.ceil(damage * 1.5);
+            document.getElementById('battleMessage').innerHTML = `${opponentPokemon.name} crit for ${damage}`;
+            console.log("enemy damage you for: " + damage);
+            let totalHp = userHealth - damage;
+            userHealth = totalHp;
+        } else {
+            // normal
+            let damage = opponentPokemon.power + (Math.random() * 20);
+            damage = Math.ceil(damage);
+            document.getElementById('battleMessage').innerHTML = `${opponentPokemon.name} attacked for ${damage}`;
+            console.log("enemy damage you for: " + damage);
+            let totalHp = userHealth - damage;
+            userHealth = totalHp;
+        }
     }
+    animationDamage = setInterval(shake, .7);
     turnPlay++;
     setTimeout(() => {
         battleUpdate()
@@ -96,6 +159,7 @@ const heal = () => {
         opponentHealth = opponentHealth + replenish;
         document.getElementById('battleMessage').innerHTML = `${opponentPokemon.name} healed for ${replenish}`
     }
+    animationHeal = setInterval(glow, 1);
     turnPlay++;
     setTimeout(() => {
         battleUpdate()
@@ -129,31 +193,45 @@ const environment = () => {
 
 
 function battleUpdate() {
-    console.log(`The turn is now ${turnPlay}`);
-    console.log('Opponent current HP: ' + opponentHealth);
-    console.log('User current HP: ' + userHealth);
-    console.log('The player pokemon main hp: ' + playerPokemon.health);
+    clearInterval(animationDamage);
+    clearInterval(animationHeal);
+
+    document.getElementById('battleImageBack').style.animationPlayState = `paused`;
+    document.getElementById('battleImageFront').style.animationPlayState = `paused`;
 
     let playerWidth = (userHealth / playerPokemon.health) * 100;
     let oppponentWidth = (opponentHealth / opponentPokemon.health) * 100;
+
     document.getElementById('playerHealthBar').style.width = `${playerWidth}%`;
     document.getElementById('opponentHealthBar').style.width = `${oppponentWidth}%`;
 
     document.getElementById('playerHealthText').innerHTML = `${userHealth} / ${playerPokemon.health}`;
     document.getElementById('opponentHealthText').innerHTML = `${opponentHealth} / ${opponentPokemon.health}`;
-
-    if (turnPlay % 2 === 0) {
-        document.getElementById('battleMessage').innerHTML = `It's your turn`
-    } else {
-        document.getElementById('battleMessage').innerHTML = `It's your opponent's turn`
-        if (opponentHealth != opponentPokemon.health) {
-            let chooseSkill = Math.ceil((Math.random() * 2) - 1);
-            console.log('The skill being used is ' + (typeof attack));
-            attack();
+    if (userHealth <= 0 || opponentHealth <= 0) {
+        if (userHealth <= 0) {
+            document.getElementById('battleMessage').innerHTML = `Oh no!`
+            document.getElementById('playerHealthBar').style.width = `0%`;
+            document.getElementById('playerHealthText').innerHTML = `0 / ${playerPokemon.health}`;
         } else {
-            let chooseSkill = Math.ceil((Math.random() * 3) - 1);
-            console.log('The skill being used is ' + (typeof attack));
-            attack();
+            document.getElementById('battleMessage').innerHTML = `You've cleared it!`
+            document.getElementById('opponentHealthBar').style.width = `0%`;
+            document.getElementById('opponentHealthText').innerHTML = `0 / ${opponentPokemon.health}`;
+        }
+        animationLose = setInterval(levelClear(), .5);
+    } else {
+        if (turnPlay % 2 === 0) {
+            document.getElementById('battleMessage').innerHTML = `It's your turn`
+        } else {
+            document.getElementById('battleMessage').innerHTML = `It's your opponent's turn`
+            if (opponentHealth != opponentPokemon.health) {
+                let chooseSkill = Math.ceil((Math.random() * 2) - 1);
+                console.log('The skill being used is ' + (typeof attack));
+                attack();
+            } else {
+                let chooseSkill = Math.ceil((Math.random() * 3) - 1);
+                console.log('The skill being used is ' + (typeof attack));
+                attack();
+            }
         }
     }
 }
@@ -221,14 +299,14 @@ function battle(playerChosen) {
     </div>
     <div class="row mt-5 justify-content-around">
         <div class="col-5 mt-5 pt-5 text-center">
-            <img src="${playerPokemon.imageBack}" alt="no image found" class="img-fluid auto-image-battle-back">
+            <img src="${playerPokemon.imageBack}" alt="no image found" class="img-fluid auto-image-battle-back" id="battleImageBack">
         </div>
         <div class="col-5 mt-2 text-center">
-            <img src="${opponentPokemon.imageFront}" alt="no image found" class="img-fluid auto-image-battle-front">
+            <img src="${opponentPokemon.imageFront}" alt="no image found" class="img-fluid auto-image-battle-front" id="battleImageFront">
         </div>
     </div>
     <div class="row p-3 mt-5 justify-content-around">
-        <div class="col-6 p-3 border border-dark rounded background-battle-ui align-middle text-center">
+        <div class="col-6 p-3 border border-dark rounded background-battle-ui align-middle text-center border-special">
             <p class="d-inline-flex auto-font-size-description" id="battleMessage">You've encountered a
                 ${opponentPokemon.name}</p>
         </div>
@@ -237,12 +315,12 @@ function battle(playerChosen) {
                 <div class="col text-right">
                     <button class="btn btn-outline-dark auto-font-size-description button-battle" onclick="attack()" data-toggle="popover"
                         data-placement="top" data-trigger="hover"
-                        data-content="Damage based on the pokemon's base power">Attack</button>
+                        data-content="Damage based on the pokemon's base power (15% chance of crit)">Attack</button>
                 </div>
                 <div class="col text-right mt-2">
                     <button class="btn btn-outline-dark auto-font-size-description button-battle" onclick="heal()" data-toggle="popover"
                         data-placement="bottom" data-trigger="hover"
-                        data-content="Apply health potion that may replenish 50 - 150 health points">Heal</button>
+                        data-content="Apply health potion that may replenish 45 - 75 health points">Heal</button>
                 </div>
             </div>
             <div class="row d-inline-flex">
