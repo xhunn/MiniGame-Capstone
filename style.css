@@ -2,7 +2,7 @@
 /* task 4 */
 #field {
     background-image: url('./images/bgMenu.jpg');
-    background-position: center;
+    background-position: absolute;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -16,14 +16,25 @@
     color:black;
     text-shadow: 2px 2px #FFFF00;
 }
-
+.bg-body {
+    background-image: url('./images/bgMenu.jpg');
+    background-position: absolute;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
 .game-text {
     font-family: 'Press Start 2P';
 }
-
+.text-footer {
+    font-size: .8rem;
+}
+.text-footer-title {
+    font-size: 1rem;
+}
 /* ids */
 #character-selection-image {
-    height: 500px;
+    height: 400px;
 }
 
 #button-character {
@@ -97,7 +108,7 @@
 }
 
 @keyframes glowHeal {
-    from { filter: saturate(0%) }
+    from { filter: saturate(100%) }
     to { filter: saturate(200%) }
 }
 
